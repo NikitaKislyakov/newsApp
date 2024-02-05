@@ -66,23 +66,7 @@ class NewsTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        newsTitleLabel.frame = CGRect(x: 10,
-                                      y: 0,
-                                      width: contentView.frame.size.width - 170,
-                                      height: 70)
-        
-        subtitleLabel.frame = CGRect(x: 10,
-                                      y: 70,
-                                      width: contentView.frame.size.width - 170,
-                                      height: contentView.frame.size.height / 2)
-        
-        newsImageView.frame = CGRect(x: contentView.frame.size.width - 150,
-                                      y: 5,
-                                      width: 140,
-                                      height: contentView.frame.size.height - 10)
-        
-        
+        setupElements()
     }
     
     override func prepareForReuse() {
@@ -90,6 +74,24 @@ class NewsTableViewCell: UITableViewCell {
         newsImageView.image = nil
         newsTitleLabel.text = nil
         subtitleLabel.text = nil
+    }
+
+
+    private func setupElements() {
+        newsTitleLabel.frame = CGRect(x: 10,
+                                      y: 0,
+                                      width: contentView.frame.size.width - 170,
+                                      height: 70)
+        
+        subtitleLabel.frame = CGRect(x: 10,
+                                     y: 70,
+                                     width: contentView.frame.size.width - 170,
+                                     height: contentView.frame.size.height / 2)
+        
+        newsImageView.frame = CGRect(x: contentView.frame.size.width - 150,
+                                     y: 5,
+                                     width: 140,
+                                     height: contentView.frame.size.height - 10)
     }
     
     func configure(with viewModel: TableViewCellViewModel) {
@@ -101,7 +103,9 @@ class NewsTableViewCell: UITableViewCell {
         if let data = viewModel.imageData {
             newsImageView.image = UIImage(data: data)
         } else if let url = viewModel.imageURL {
-            //fetch
+            
+            // fetch
+            
             URLSession.shared.dataTask(with: url, completionHandler: { [weak self] data, _, error in
                 guard let data = data, error == nil else { return }
                 viewModel.imageData = data
